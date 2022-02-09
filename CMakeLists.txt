@@ -8,11 +8,20 @@ if (NOT MSVC)
 endif ()
 if (CMAKE_CXX_COMPILER MATCHES "em\\+\\+(-[a-zA-Z0-9.])?$")
     message(STATUS "Using em++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_ZLIB=1 -s FULL_ES3=1 -s USE_LIBPNG=1 -s USE_VORBIS=1 -s USE_FREETYPE=1 -s USE_THEORA=1 -s USE_BOOST_HEADERS=1 -s USE_LIBJPEG=1 -s USE_GIFLIB=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=['bmp'] -s USE_SDL_TTF=2")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_ZLIB=1 -s FULL_ES3=1 -s USE_LIBPNG=1 -s ALLOW_MEMORY_GROWTH=1 -s MAX_WEBGL_VERSION=2 -s MIN_WEBGL_VERSION=2 -s USE_VORBIS=1 -s USE_FREETYPE=1 -s USE_BOOST_HEADERS=1 -s USE_LIBJPEG=1 -s USE_GIFLIB=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=['bmp'] -s USE_SDL_TTF=2")
+else()
+    include(CheckCCompilerFlag)
+
+    set(CMAKE_REQUIRED_LINK_OPTIONS "-arch;x86_64")
+    check_c_compiler_flag("-arch x86_64" x86_64Supported)
+    message("x86_64Supported=${x86_64Supported}")
+
+    set(CMAKE_REQUIRED_LINK_OPTIONS "-arch;arm64")
+    check_c_compiler_flag("-arch arm64" arm64Supported)
+    message("arm64Supported=${arm64Supported}")
 endif ()
 
 add_subdirectory(third_party/jngl)
-set(CMAKE_OSX_ARCHITECTURES "x86_64")
 
 set(MYGAME_SANITIZE_ADDRESS_DEFAULT ON)
 if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows" OR ANDROID OR CMAKE_BUILD_TYPE MATCHES "Release")
@@ -54,7 +63,7 @@ if (ANDROID)
             android
             native_app_glue
             EGL
-            GLESv3 
+            GLESv3
             OpenSLES
             log
             z
@@ -89,7 +98,6 @@ else ()
             jngl
             )
 endif ()
-
 file(GLOB GFX_FILES RELATIVE ${CMAKE_SOURCE_DIR}/data CONFIGURE_DEPENDS data/*.webp data/*.png
         data/*/*.webp)
 file(GLOB SFX_FILES RELATIVE ${CMAKE_SOURCE_DIR}/data data/sfx/*.ogg)
