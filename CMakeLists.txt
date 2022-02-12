@@ -2,6 +2,30 @@ cmake_minimum_required(VERSION 3.6)
 
 project(Ryan_teaching_winter_session LANGUAGES C CXX)
 
+set(CPM_DOWNLOAD_VERSION 0.34.3)
+
+if(CPM_SOURCE_CACHE)
+    # Expand relative path. This is important if the provided path contains a tilde (~)
+    get_filename_component(CPM_SOURCE_CACHE ${CPM_SOURCE_CACHE} ABSOLUTE)
+    set(CPM_DOWNLOAD_LOCATION "${CPM_SOURCE_CACHE}/cpm/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+elseif(DEFINED ENV{CPM_SOURCE_CACHE})
+    set(CPM_DOWNLOAD_LOCATION "$ENV{CPM_SOURCE_CACHE}/cpm/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+else()
+    set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+endif()
+
+if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
+    message(STATUS "Downloading CPM.cmake to ${CPM_DOWNLOAD_LOCATION}")
+    file(DOWNLOAD
+            https://github.com/cpm-cmake/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake
+            ${CPM_DOWNLOAD_LOCATION}
+            )
+endif()
+
+include(${CPM_DOWNLOAD_LOCATION})
+
+CPMAddPackage(NAME cereal VERSION 1.2.2 GIT_REPOSITORY https://github.com/USCiLab/cereal OPTIONS "JUST_INSTALL_CEREAL 1")
+
 set(CMAKE_CXX_STANDARD 20)
 if (NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fdiagnostics-color")
@@ -35,6 +59,7 @@ endif ()
 
 file(GLOB SOURCES CONFIGURE_DEPENDS
         src/*.cpp
+        src/engine/*.cpp
         )
 if (ANDROID)
     # build native_app_glue as a static lib
@@ -85,26 +110,20 @@ else ()
     if (WIN32)
         add_executable(Ryan_teaching_winter_session ${SOURCES})
     else ()
-        add_executable(Ryan_teaching_winter_session ${SOURCES})
+        add_executable(Ryan_teaching_winter_session ${SOURCES} src/ButtonBox.cpp src/ButtonBox.h src/Scores.cpp src/Scores.h)
     endif ()
     if (APPLE)
         target_link_libraries(Ryan_teaching_winter_session PRIVATE "-framework AppKit")
-    elseif (NOT WIN32)
-        # target_link_libraries(Ryan_teaching_winter_session PRIVATE
-        #         stdc++fs
-        #         )
     endif ()
     target_link_libraries(Ryan_teaching_winter_session PRIVATE
-            jngl
+            jngl cereal
             )
 endif ()
 file(GLOB GFX_FILES RELATIVE ${CMAKE_SOURCE_DIR}/data CONFIGURE_DEPENDS data/*.webp data/*.png
         data/*/*.webp)
 file(GLOB SFX_FILES RELATIVE ${CMAKE_SOURCE_DIR}/data data/sfx/*.ogg)
-# configure_file(src/engine/datafiles.hpp.in include/datafiles.hpp @ONLY)
 target_include_directories(Ryan_teaching_winter_session PRIVATE ${CMAKE_BINARY_DIR}/include third_party/cereal/include
         third_party/spine-runtimes/spine-c/spine-c/include)
-include_directories(/opt/X11/include/freetype2/)
 if (WIN32)
     target_compile_definitions(Ryan_teaching_winter_session PRIVATE _USE_MATH_DEFINES)
 endif ()

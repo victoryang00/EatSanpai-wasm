@@ -5,14 +5,27 @@
 #ifndef RYAN_TEACHING_WINTER_SESSION_EATKANOPANEL_H
 #define RYAN_TEACHING_WINTER_SESSION_EATKANOPANEL_H
 
+#include "engine/Work.h"
+#include <jngl/Vec2.hpp>
 
-class EatKanoPanel {
+class EatKanoPanel : public Work{
 public:
-    EatKanoPanel() {}
+    enum Mode {
+        NORMAL, ENDLESS, PRACTICE
+    };
 
-    void CalRand() {}
+    EatKanoPanel() {}
+    ~EatKanoPanel() {}
+
+    virtual void step();
+    virtual void draw() const;
+    int calRand() {
+        return rand() % 4;
+    }
 
     void Render() {}
+
+    int calCPS() { return 0; }
 
 private:
     int random_key;

@@ -1,10 +1,35 @@
-#include <jngl.hpp>
+#include "StartPanel.h"
+#include <jngl/all.hpp>
+#include <jngl/init.hpp>
 
-JNGL_MAIN_BEGIN
-    {
-        jngl::showWindow("EatKano", 400, 800);
-        while (jngl::running()) {
-            jngl::updateInput();
-            jngl::swapBuffers();
+class QuitWithEscape : public jngl::Job {
+public:
+    void step() override {
+        if (jngl::keyPressed(jngl::key::Escape)) {
+            jngl::quit();
         }
-    }JNGL_MAIN_END
+    }
+
+    void draw() const override {
+    }
+};
+
+std::function<std::shared_ptr<jngl::Work>()> jnglInit(jngl::AppParameters& params) {
+#ifdef NDEBUG
+    try {
+#endif
+    params.displayName = "EatKano";
+    params.screenSize = { 1280, 720 };
+    return []() {
+        jngl::setAntiAliasing(true);
+        jngl::setIcon("../image/ClickBefore.png");
+        jngl::setFontSize(jngl::getScaleFactor() * 13);
+        return std::make_shared<StartPanel>();
+    };
+#ifdef NDEBUG
+    } catch (std::exception& e) {
+        jngl::errorMessage(e.what());
+        return false;
+    }
+#endif
+}
