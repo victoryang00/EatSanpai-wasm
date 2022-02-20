@@ -5,11 +5,11 @@
 #ifndef RYAN_TEACHING_WINTER_SESSION_BUTTONBOX_H
 #define RYAN_TEACHING_WINTER_SESSION_BUTTONBOX_H
 
-#include <jngl/Drawable.hpp>
+#include "engine/Work.h"
 #include <functional>
+#include <jngl/Drawable.hpp>
 #include <jngl/sprite.hpp>
 #include <string>
-#include "engine/Work.h"
 
 class Work;
 
@@ -32,9 +32,8 @@ protected:
 
 class Button : public Widget {
 public:
-    Button(const std::string &text, std::function<void()> callback,
-           const std::string &normal = "button", const std::string &mouseOver = "button_over",
-           const std::string &clicked = "button_clicked");
+    Button(const std::string &text, std::function<void()> callback, const std::string &normal = "button",
+           const std::string &mouseOver = "button_over", const std::string &clicked = "button_clicked");
 
     void SetText(const std::string &);
 
@@ -53,16 +52,15 @@ private:
     const static int fontSize_;
 };
 
-
 class ButtonBox : public Widget {
 public:
     ButtonBox(); // Creates a box at the center of the screen
     ButtonBox(int xCenter, int yCenter);
-    void add(const std::string& text, std::function<void()>);
+    void add(const std::string &text, std::function<void()>);
     void draw() const override;
     void step() override;
 
-    void onAdd(Work&) override;
+    void onAdd(Work &) override;
 
 private:
     std::vector<std::shared_ptr<Button>> buttons_;
@@ -70,4 +68,4 @@ private:
     const static int spacing_;
 };
 
-#endif //RYAN_TEACHING_WINTER_SESSION_BUTTONBOX_H
+#endif // RYAN_TEACHING_WINTER_SESSION_BUTTONBOX_H

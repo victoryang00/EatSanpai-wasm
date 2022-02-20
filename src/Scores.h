@@ -5,18 +5,18 @@
 #ifndef RYAN_TEACHING_WINTER_SESSION_SCORES_H
 #define RYAN_TEACHING_WINTER_SESSION_SCORES_H
 
+#include "EatKanoPanel.h"
+#include <boost/shared_ptr.hpp>
+#include <compare>
 #include <list>
 #include <string>
-#include <boost/shared_ptr.hpp>
-#include "EatKanoPanel.h"
-#include <compare>
 
 struct Data {
     Data();
     int score;
     double time;
     std::string name;
-    auto operator<=>(const Data& rhs) const = default;
+    std::weak_ordering operator<=>(const Data &rhs) const = default;
 };
 
 class Highscore {
@@ -27,6 +27,7 @@ public:
     void Add(Data);
     void save() const;
     void Blink(Data);
+
 private:
     std::list<Data> highscores_;
     EatKanoPanel::Mode type_;
@@ -34,5 +35,4 @@ private:
     std::shared_ptr<Data> blink_;
 };
 
-
-#endif //RYAN_TEACHING_WINTER_SESSION_SCORES_H
+#endif // RYAN_TEACHING_WINTER_SESSION_SCORES_H

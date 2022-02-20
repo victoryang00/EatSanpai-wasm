@@ -5,10 +5,9 @@
 #ifndef RYAN_TEACHING_WINTER_SESSION_STARTPANEL_H
 #define RYAN_TEACHING_WINTER_SESSION_STARTPANEL_H
 
-
-#include "engine/Work.h"
 #include "ButtonBox.h"
 #include "Scores.h"
+#include "engine/Work.h"
 #include "jngl/Finally.hpp"
 #include <functional>
 
@@ -21,14 +20,17 @@ public:
     void BlinkHighscore(Data);
 
     void isNewGame() const;
-    void startGame() const;
+    void Normal() const;
+    void Endless() const;
+    void Practice() const;
     void OptionsMenuCallback() const;
     void QuitGame() const;
+
 private:
     std::shared_ptr<ButtonBox> buttonBox_;
     Highscore normalHighscore_;
-    Highscore fiftyLinesHighscore_;
+    Highscore endlessHighscore_;
+    EatKanoPanel::Mode mode_;
 };
 
-
-#endif //RYAN_TEACHING_WINTER_SESSION_START_H
+#endif // RYAN_TEACHING_WINTER_SESSION_START_H
