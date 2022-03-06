@@ -18,9 +18,10 @@ std::function<std::shared_ptr<jngl::Work>()> jnglInit(jngl::AppParameters& param
 #ifdef NDEBUG
     try {
 #endif
-    params.displayName = "EatKano";
+    params.displayName = "撅 仙 贝 罢";
     params.screenSize = { 720, 1280 };
     return []() {
+        jngl::setFont("/Users/yiweiyang/Library/Fonts/Tiejili Regular.ttf");
         jngl::setAntiAliasing(true);
         jngl::setIcon("../image/ClickBefore.png");
         jngl::setFontSize(jngl::getScaleFactor() * 13);
