@@ -16,14 +16,13 @@
 #include <jngl/all.hpp>
 
 StartPanel::StartPanel()
-    : buttonBox_(new ButtonBox(0, 0)), normalHighscore_(EatKanoPanel::Mode::NORMAL),
+    : buttonBox_(new ButtonBox(0, 200)), normalHighscore_(EatKanoPanel::Mode::NORMAL),
       endlessHighscore_(EatKanoPanel::Mode::ENDLESS) {
 
     buttonBox_->add("Normal", std::bind(&StartPanel::Normal, this));
     buttonBox_->add("Endless", std::bind(&StartPanel::Endless, this));
     buttonBox_->add("Practice", std::bind(&StartPanel::Practice, this));
     buttonBox_->add("Options", std::bind(&StartPanel::OptionsMenuCallback, this));
-    buttonBox_->add("Quit", std::bind(&StartPanel::QuitGame, this));
     addWidget(buttonBox_);
 
 }
@@ -38,22 +37,17 @@ void StartPanel::step() { StepWidgets(); }
 void StartPanel::draw() const {
     jngl::setBackgroundColor(0xffffff_rgb);
     GetScreen().DrawCentered("./image/background.png", 200, 0);
-
     DrawWidgets();
 
     jngl::pushMatrix();
     jngl::translate(0, 0);
-    jngl::setFontSize(30);
+    jngl::setFontSize(60);
     jngl::setFontColor(255, 255, 0);
-    jngl::print("迫真音游", 0, -30);
-    jngl::setFontSize(20);
+    jngl::print("迫真音游", -250, -420);
+    jngl::setFontSize(50);
     jngl::setFontColor(0, 0, 0);
-    jngl::print("从最底下仙贝的开始", 0, -50);
-    jngl::print("看你20秒多少分", 0, -70);
-//    normalHighscore_.draw();
-//    jngl::translate(0, 530);
-//    jngl::print("Highscores 50 Lines", 0, -90);
-//    endlessHighscore_.draw();
+    jngl::print("从最底下仙贝的开始", -250, -350);
+    jngl::print("看你20秒多少分", -250, -300);
     jngl::popMatrix();
 }
 

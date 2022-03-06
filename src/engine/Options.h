@@ -9,13 +9,12 @@ public:
 	Options();
 	void Save() const;
 
-	int windowWidth = 1280;
-	int windowHeight = 720;
+	int windowWidth = 720;
+	int windowHeight = 1280;
 	bool fullscreen = false;
-	unsigned int startJunks = 0;
-	unsigned int startLevel = 0;
-	std::string lastHighscoreName;
-	std::string lastLoginName;
+	std::string inputKey = "ASDF";
+	std::string preimg = "ASDF";
+	std::string postimg = "ASDF";
 
 private:
 	std::string filename;
@@ -25,10 +24,7 @@ private:
 		ar & CEREAL_NVP(windowWidth);
 		ar & CEREAL_NVP(windowHeight);
 		ar & CEREAL_NVP(fullscreen);
-		ar & CEREAL_NVP(startJunks);
-		ar & CEREAL_NVP(startLevel);
-		ar & CEREAL_NVP(lastHighscoreName);
-		ar & CEREAL_NVP(lastLoginName);
+		ar & CEREAL_NVP(inputKey);
 	}
 };
 

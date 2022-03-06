@@ -21,9 +21,10 @@ public:
     void OnBack() const;
 
 private:
-    std::shared_ptr<Chooser> startLevel_;
-    std::shared_ptr<Chooser> startJunks_;
+    std::shared_ptr<Input> select_preimg_;
+    std::shared_ptr<Input> select_postimg_;
     std::shared_ptr<Input> input_;
+    std::shared_ptr<Input> headline_;
     std::shared_ptr<Button> back_;
 };
 
