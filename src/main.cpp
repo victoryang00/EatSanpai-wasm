@@ -19,7 +19,7 @@ std::function<std::shared_ptr<jngl::Work>()> jnglInit(jngl::AppParameters& param
     try {
 #endif
     params.displayName = "EatKano";
-    params.screenSize = { 1280, 720 };
+    params.screenSize = { 720, 1280 };
     return []() {
         jngl::setAntiAliasing(true);
         jngl::setIcon("../image/ClickBefore.png");

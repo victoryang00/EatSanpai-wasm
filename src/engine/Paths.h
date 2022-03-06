@@ -6,23 +6,23 @@
 
 class Paths : public Singleton<Paths> {
 public:
-	Paths();
-	std::string getData() const;
+    Paths();
+    std::string getData() const;
 
-	std::string getGraphics();
-	void setGraphics(const std::string&);
+    std::string getGraphics();
+    void setGraphics(const std::string &);
 
-	std::string getPrefix();
+    std::string getPrefix();
 
-	std::string getConfig();
+    std::string getConfig();
 
-	void setOriginalGfx(const std::string&);
+    void setOriginalGfx(const std::string &);
 
 private:
-	std::string prefix;
-	std::string configPath;
-	std::string graphics;
-	std::string originalGfx;
+    std::string prefix;
+    std::string configPath;
+    std::string graphics = "/data/";
+    std::string originalGfx;
 };
 
-Paths& getPaths();
+Paths &getPaths();

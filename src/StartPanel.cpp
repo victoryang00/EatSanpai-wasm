@@ -40,14 +40,14 @@ void StartPanel::draw() const {
 
     jngl::pushMatrix();
     jngl::translate(-20, -400);
-    jngl::setFontSize(50);
-    jngl::setFontColor(0, 0, 0);
-    jngl::print("Highscores Normal", 0, -90);
-    normalHighscore_.draw();
-    jngl::translate(0, 530);
-    jngl::setFontColor(0, 0, 0);
-    jngl::print("Highscores 50 Lines", 0, -90);
-    endlessHighscore_.draw();
+//    jngl::setFontSize(20);
+//    jngl::setFontColor(0, 0, 0);
+//    jngl::print("Highscores Normal", 0, -90);
+//    normalHighscore_.draw();
+//    jngl::translate(0, 530);
+//    jngl::setFontColor(0, 0, 0);
+//    jngl::print("Highscores 50 Lines", 0, -90);
+//    endlessHighscore_.draw();
     jngl::popMatrix();
 }
 

@@ -53,7 +53,7 @@ Paths::Paths() : configPath(jngl::getConfigPath()) {
 }
 
 std::string Paths::getGraphics() {
-	return graphics;
+	return configPath+ graphics;
 }
 
 void Paths::setGraphics(const std::string& g) {
