@@ -7,12 +7,13 @@ namespace fs = std::filesystem;
 
 class ResizeGraphics {
 public:
-	ResizeGraphics();
-	~ResizeGraphics();
-	bool isFinished(float& percentage);
+    ResizeGraphics();
+    ~ResizeGraphics();
+    bool isFinished(float &percentage);
+
 private:
-	std::deque<std::string> filesToResize_;
-	int originalSize_;
+    std::deque<std::string> filesToResize_;
+    int originalSize_;
 };
 
-void ScanPath(fs::path path, std::deque<std::string>& filesToResize);
+void ScanPath(fs::path path, std::deque<std::string> &filesToResize);

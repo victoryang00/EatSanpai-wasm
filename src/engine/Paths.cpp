@@ -2,8 +2,8 @@
 #include "Options.h"
 
 #ifdef _WIN32
-#include <windows.h>
 #include <shlobj.h>
+#include <windows.h>
 #endif
 #include <filesystem>
 #include <iostream>

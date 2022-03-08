@@ -10,11 +10,12 @@
 #include "engine/Screen.h"
 
 #include <jngl/all.hpp>
+#include <memory>
 
 OptionsMenu::OptionsMenu()
     : select_preimg_(new Input(-200, -450)), select_postimg_(new Input(-200, -300)), input_(new Input(-200, -150)),
       headline_(new Input(-200, 0)) {
-    back_.reset(new Button("Back", std::bind(&OptionsMenu::OnBack, this)));
+    back_ = std::make_shared<Button>("Back", [this] { OnBack(); });
     back_->setCenter(0, 400);
     addWidget(select_preimg_);
     addWidget(select_postimg_);
@@ -26,6 +27,7 @@ OptionsMenu::OptionsMenu()
 void OptionsMenu::step() { StepWidgets(); }
 
 void OptionsMenu::draw() const {
+    GetScreen().DrawCentered("./image/background.png", 0, 0);
     DrawWidgets();
     jngl::setFontColor(0, 0, 0);
     jngl::setFontSize(40);

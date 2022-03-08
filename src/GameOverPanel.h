@@ -5,6 +5,7 @@
 #ifndef RYAN_TEACHING_WINTER_SESSION_GAMEOVERPANEL_H
 #define RYAN_TEACHING_WINTER_SESSION_GAMEOVERPANEL_H
 
+#include "ButtonBox.h"
 #include "Scores.h"
 #include "engine/Work.h"
 #include <jngl/Vec2.hpp>
@@ -13,18 +14,15 @@ class EatKanoPanel;
 
 class GameOverPanel : public Work {
 public:
-    GameOverPanel(EatKanoPanel *);
-    void step();
-    void draw() const;
-    void onQuitEvent();
-
+    GameOverPanel(const Data &, Highscore);
+    void step() override;
+    void draw() const override;
+    void onQuitEvent() override;
+    void BlinkHighscore(Data data);
 private:
-    bool isHighscore() const;
-    EatKanoPanel *const game_;
-    int blink_;
     Data data_;
     Highscore highscore_;
-    std::shared_ptr<jngl::Work> work_;
+    std::shared_ptr<ButtonBox> restart_;
 };
 
 #endif // RYAN_TEACHING_WINTER_SESSION_GAMEOVERPANEL_H

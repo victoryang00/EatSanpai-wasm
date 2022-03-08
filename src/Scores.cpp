@@ -6,27 +6,27 @@
 #include "engine/Paths.h"
 #include "engine/Screen.h"
 
-#include <fstream>
-#include <stdexcept>
 #include <cassert>
 #include <cmath>
+#include <fstream>
 #include <iomanip>
 #include <jngl/all.hpp>
+#include <memory>
+#include <utility>
 
-Data::Data() : score(0), time(0) {
-}
+Data::Data() : score(0), time(0) {}
 
 Highscore::Highscore(EatKanoPanel::Mode type) : type_(type), blink_(nullptr) {
     switch (type) {
-        case EatKanoPanel::Mode::NORMAL:
-            filename_ = getPaths().getConfig() + "normal.txt";
-            break;
-        case EatKanoPanel::Mode::ENDLESS:
-            filename_ = getPaths().getConfig() + "endless.txt";
-            break;
-        case EatKanoPanel::Mode::PRACTICE:
-            filename_ = getPaths().getConfig() + "practice.txt";
-            break;
+    case EatKanoPanel::Mode::NORMAL:
+        filename_ = getPaths().getConfig() + "normal.txt";
+        break;
+    case EatKanoPanel::Mode::ENDLESS:
+        filename_ = getPaths().getConfig() + "endless.txt";
+        break;
+    case EatKanoPanel::Mode::PRACTICE:
+        filename_ = getPaths().getConfig() + "practice.txt";
+        break;
     }
     std::ifstream fin(filename_);
     if (fin) {
@@ -86,21 +86,17 @@ void Highscore::draw() const {
     jngl::popMatrix();
 }
 
-void Highscore::Add(Data data) {
+void Highscore::Add(const Data &data) {
     highscores_.push_back(data);
     if (type_ == EatKanoPanel::Mode::NORMAL) {
-        highscores_.sort([](const Data &lhs, const Data &rhs) {
-            return lhs.score > rhs.score;
-        });
+        highscores_.sort([](const Data &lhs, const Data &rhs) { return lhs.score > rhs.score; });
     } else {
-        highscores_.sort([](const Data &lhs, const Data &rhs) {
-            return lhs.time < rhs.time;
-        });
+        highscores_.sort([](const Data &lhs, const Data &rhs) { return lhs.time < rhs.time; });
     }
     highscores_.pop_back();
 }
 
-bool Highscore::isHighscore(Data data) const {
+bool Highscore::isHighscore(const Data &data) const {
     if (type_ == EatKanoPanel::Mode::NORMAL) {
         return data.score > highscores_.back().score;
     } else {
@@ -116,6 +112,4 @@ void Highscore::save() const {
     }
 }
 
-void Highscore::Blink(Data d) {
-    blink_.reset(new Data(d));
-}
+void Highscore::Blink(Data d) { blink_ = std::make_shared<Data>(std::move(d)); }

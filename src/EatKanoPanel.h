@@ -10,43 +10,40 @@
 
 class EatKanoPanel : public Work {
 public:
-    enum Mode {
-        NORMAL, ENDLESS, PRACTICE
-    };
+    enum Mode { NORMAL, ENDLESS, PRACTICE };
 
-    EatKanoPanel(const Mode type);
+    explicit EatKanoPanel(Mode type);
 
-    ~EatKanoPanel() {}
+    ~EatKanoPanel() override = default;
 
-    virtual void step();
+    void step() override;
 
-    virtual void draw() const;
+    void draw() const override;
 
-    int calRand() {
-        return rand() % 4;
-    }
+    [[nodiscard]] static int calRand() { return std::rand() % 4; }
 
-    void Render() {}
+    [[nodiscard]] Mode getType() const;
 
-    void DrawTime(const int x, const int y);
+    [[nodiscard]] bool gameOver() const;
 
-    int calCPS() { return 0; }
+    static int calCPS() { return 0; }
 
-    Mode getType() const;
+    static double getTime();
 
-    double getTime() const;
+    void onQuitEvent() override;
 
-    bool gameOver() const;
+    void DrawTime(int x, int y) const;
 
-    void onQuitEvent();
-
-    void DrawTime(const int x, const int y) const;
+    void DrawCPS() const;
 
 private:
     char keys_[4] = {'a', 's', 'd', 'f'};
-    int current_panel[3][3];
+    std::vector<std::vector<std::tuple<int, int>>> map_ = {
+        {{0, 0}, {0, 1}, {0, 2}, {0, 3}}, {{1, 0}, {1, 1}, {1, 2}, {1, 3}}, {{2, 0}, {2, 1}, {2, 2}, {2, 3}},
+        {{2, 0}, {2, 1}, {2, 2}, {2, 3}}, {{2, 0}, {2, 1}, {2, 2}, {2, 3}}, {{3, 0}, {3, 1}, {3, 2}, {3, 3}}};
+    int curr_panel[6] = {0, 0, 0, 0, 0, 0};
     Mode type_;
+    bool clicked_wrong;
 };
 
-
-#endif //RYAN_TEACHING_WINTER_SESSION_GAME_H
+#endif // RYAN_TEACHING_WINTER_SESSION_GAME_H

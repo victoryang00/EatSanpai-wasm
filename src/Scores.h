@@ -21,10 +21,10 @@ struct Data {
 
 class Highscore {
 public:
-    Highscore(EatKanoPanel::Mode type);
-    bool isHighscore(Data data) const;
+    explicit Highscore(EatKanoPanel::Mode type);
+    [[nodiscard]] bool isHighscore(const Data &data) const;
     void draw() const;
-    void Add(Data);
+    void Add(const Data &);
     void save() const;
     void Blink(Data);
 

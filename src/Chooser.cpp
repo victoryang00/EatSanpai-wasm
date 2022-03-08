@@ -4,22 +4,21 @@
 
 #include "Chooser.h"
 
-#include "engine/Screen.h"
 #include "engine/Paths.h"
+#include "engine/Screen.h"
 
 #include <jngl/all.hpp>
 
 Chooser::Chooser(const int x, const int y)
-        : previous_(
-        "", [this]() { Previous(); }, "chooser_left", "chooser_left_over", "chooser_left_over"),
-          next_(
-                  "", [this]() { Next(); }, "chooser_right", "chooser_right_over", "chooser_right_over"),
-          sprite_(getPaths().getGraphics() + "chooser") {
+    : previous_(
+          "", [this]() { Previous(); }, "chooser_left", "chooser_left_over", "chooser_left_over"),
+      next_(
+          "", [this]() { Next(); }, "chooser_right", "chooser_right_over", "chooser_right_over"),
+      sprite_(getPaths().getGraphics() + "chooser") {
     width = jngl::getWidth(sprite_) * jngl::getScaleFactor();
     height = jngl::getHeight(sprite_) * jngl::getScaleFactor();
     setCenter(x, y);
-    previous_.setCenter(
-            x - static_cast<double>(jngl::getWidth(sprite_)) / 2 - previous_.getWidth() / 2, y);
+    previous_.setCenter(x - static_cast<double>(jngl::getWidth(sprite_)) / 2 - previous_.getWidth() / 2, y);
     next_.setCenter(x + static_cast<double>(jngl::getWidth(sprite_)) / 2 + next_.getWidth() / 2, y);
 }
 
@@ -52,9 +51,7 @@ void Chooser::draw() const {
     next_.draw();
 }
 
-int Chooser::GetValue() const {
-    return *activeValue_;
-}
+int Chooser::GetValue() const { return *activeValue_; }
 
 void Chooser::Next() {
     ++activeValue_;

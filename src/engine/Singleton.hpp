@@ -1,15 +1,14 @@
 #pragma once
 
-template<class T>
-class Singleton {
+template <class T> class Singleton {
 public:
-	static T* handle() {
-		static T instance;
-		return &instance;
-	}
+    Singleton(const Singleton &) = delete;
+    static T *handle() {
+        static T instance;
+        return &instance;
+    }
+    Singleton &operator=(const Singleton &) = delete;
+
 protected:
-	Singleton() {}
-private:
-	Singleton(const Singleton&);
-	Singleton& operator=(const Singleton&);
+    Singleton() = default;
 };

@@ -14,12 +14,9 @@
 class StartPanel : public Work {
 public:
     StartPanel();
-    virtual void step();
-    virtual void draw() const;
+    void step() override;
+    void draw() const override;
 
-    void BlinkHighscore(Data);
-
-    void isNewGame() const;
     void Normal() const;
     void Endless() const;
     void Practice() const;
@@ -28,9 +25,7 @@ public:
 
 private:
     std::shared_ptr<ButtonBox> buttonBox_;
-    Highscore normalHighscore_;
-    Highscore endlessHighscore_;
     EatKanoPanel::Mode mode_;
 };
 
-#endif // RYAN_TEACHING_WINTER_SESSION_START_H
+#endif // RYAN_TEACHING_WINTER_SESSION_STARTPANEL_H

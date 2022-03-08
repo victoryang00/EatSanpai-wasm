@@ -5,46 +5,39 @@
 #include "ButtonBox.h"
 #include "engine/Paths.h"
 #include "engine/Screen.h"
-#include <jngl/matrix.hpp>
 #include <jngl/all.hpp>
+#include <jngl/matrix.hpp>
 #include <string>
+#include <utility>
 
-bool Widget::getSensitive() const {
-    return sensitive;
-}
+bool Widget::getSensitive() const { return sensitive; }
 
-void Widget::setSensitive(const bool sensitive) {
-    this->sensitive = sensitive;
-}
+void Widget::setSensitive(const bool sensitive_) { this->sensitive = sensitive_; }
 
-void Widget::setFocus(const bool focus) {
+void Widget::setFocus(const bool focus_) {
     bool old = this->focus;
-    this->focus = focus;
-    if (focus != old) {
+    this->focus = focus_;
+    if (focus_ != old) {
         onFocusChanged();
     }
 }
 
-void Widget::onFocusChanged() {
-}
+void Widget::onFocusChanged() {}
 
-void Widget::onAdd(Work &) {
-}
+void Widget::onAdd(Work &) {}
 
 const int Button::fontSize_ = 70;
 
-Button::Button(const std::string &text, std::function<void()> callback, const std::string &normal,
+Button::Button(std::string text, std::function<void()> callback, const std::string &normal,
                const std::string &mouseOver, const std::string &clicked)
-        : text_(text), mouseoverAlpha_(0), callback_(callback), clicked_(false),
-          sprite(getPaths().getGraphics() + normal), spriteMouseOver(getPaths().getGraphics() + mouseOver),
-          spriteClicked(getPaths().getGraphics() + clicked) {
+    : text_(std::move(text)), mouseoverAlpha_(0), callback_(std::move(callback)), clicked_(false),
+      sprite(getPaths().getGraphics() + normal), spriteMouseOver(getPaths().getGraphics() + mouseOver),
+      spriteClicked(getPaths().getGraphics() + clicked) {
     width = sprite.getWidth() * jngl::getScaleFactor();
     height = sprite.getHeight() * jngl::getScaleFactor();
 }
 
-void Button::SetText(const std::string &text) {
-    text_ = text;
-}
+void Button::SetText(const std::string &text) { text_ = text; }
 
 void Button::draw() const {
     int alpha = mouseoverAlpha_;
@@ -105,22 +98,17 @@ void Button::step() {
 
 const int ButtonBox::spacing_ = 30;
 
-ButtonBox::ButtonBox(const int xCenter, const int yCenter)
-        : xCenter_(xCenter), yCenter_(yCenter) {
+ButtonBox::ButtonBox(const int xCenter, const int yCenter) : xCenter_(xCenter), yCenter_(yCenter) {
     setSensitive(false);
 }
 
-ButtonBox::ButtonBox()
-        : xCenter_(0), yCenter_(0) {
-    setSensitive(false);
-}
+ButtonBox::ButtonBox() : xCenter_(0), yCenter_(0) { setSensitive(false); }
 
-void ButtonBox::add(const std::string &text, std::function<void()> function) {
+void ButtonBox::add(const std::string &text, const std::function<void()> &function) {
     buttons_.push_back(std::make_shared<Button>(text, function));
 
     auto end = buttons_.end();
-    int yPosButton = yCenter_ -
-                     (buttons_.size() * (buttons_[0]->getHeight() + spacing_) - spacing_) / 2 +
+    int yPosButton = yCenter_ - (buttons_.size() * (buttons_[0]->getHeight() + spacing_) - spacing_) / 2 +
                      buttons_[0]->getHeight() / 2;
     for (auto it = buttons_.begin(); it != end; ++it) {
         (*it)->setCenter(xCenter_, yPosButton);
@@ -128,15 +116,12 @@ void ButtonBox::add(const std::string &text, std::function<void()> function) {
     }
 }
 
-void ButtonBox::draw() const {
-}
+void ButtonBox::draw() const {}
 
-void ButtonBox::step() {
-}
+void ButtonBox::step() {}
 
 void ButtonBox::onAdd(Work &work) {
-    for (auto &button: buttons_) {
+    for (auto &button : buttons_) {
         work.addWidget(button);
     }
 }
-

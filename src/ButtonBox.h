@@ -32,7 +32,7 @@ protected:
 
 class Button : public Widget {
 public:
-    Button(const std::string &text, std::function<void()> callback, const std::string &normal = "button",
+    Button(std::string text, std::function<void()> callback, const std::string &normal = "button",
            const std::string &mouseOver = "button_over", const std::string &clicked = "button_clicked");
 
     void SetText(const std::string &);
@@ -56,7 +56,7 @@ class ButtonBox : public Widget {
 public:
     ButtonBox(); // Creates a box at the center of the screen
     ButtonBox(int xCenter, int yCenter);
-    void add(const std::string &text, std::function<void()>);
+    void add(const std::string &text, const std::function<void()> &);
     void draw() const override;
     void step() override;
 

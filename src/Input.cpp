@@ -4,23 +4,15 @@
 
 #include "Input.h"
 
-
 #include <jngl/all.hpp>
 
-Input::Input(int x, int y) : x_(x), y_(y), password_(false), displayCursor_(0) {
-}
+Input::Input(int x, int y) : x_(x), y_(y), password_(false), displayCursor_(0) {}
 
-void Input::setMaxWidth(unsigned int width) {
-    maxWidth = width;
-}
+void Input::setMaxWidth(unsigned int width) { maxWidth = width; }
 
-void Input::setPassword(bool password) {
-    password_ = password;
-}
+void Input::setPassword(bool password) { password_ = password; }
 
-void Input::onFocusChanged() {
-    displayCursor_ = 50;
-}
+void Input::onFocusChanged() { displayCursor_ = 50; }
 
 void Input::step() {
     if (!sensitive || !focus) {
@@ -64,13 +56,9 @@ void Input::draw() const {
     }
 }
 
-std::string Input::getText() const {
-    return text;
-}
+std::string Input::getText() const { return text; }
 
-void Input::setText(const std::string& text) {
-    this->text = text;
-}
+void Input::setText(const std::string &text) { this->text = text; }
 
 void Input::removeLastCharacter() {
     displayCursor_ = 50;

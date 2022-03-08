@@ -13,10 +13,11 @@ public:
     Chooser(int x, int y);
     void step() override;
     void draw() const override;
-    int GetValue() const;
+    [[nodiscard]] int GetValue() const;
     void AddValue(int);
     void Previous();
     void Next();
+
 private:
     typedef std::list<int> ArrayType;
     ArrayType values_;
@@ -26,5 +27,4 @@ private:
     std::string sprite_;
 };
 
-
-#endif //RYAN_TEACHING_WINTER_SESSION_CHOOSER_H
+#endif // RYAN_TEACHING_WINTER_SESSION_CHOOSER_H
