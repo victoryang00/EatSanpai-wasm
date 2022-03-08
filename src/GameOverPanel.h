@@ -14,7 +14,7 @@ class EatKanoPanel;
 
 class GameOverPanel : public Work {
 public:
-    GameOverPanel(const Data &, Highscore);
+    GameOverPanel(EatKanoPanel::Mode mode_, const Data &, Highscore);
     void step() override;
     void draw() const override;
     void onQuitEvent() override;

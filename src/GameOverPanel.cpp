@@ -3,18 +3,21 @@
 //
 
 #include "GameOverPanel.h"
+#include "engine/Options.h"
 
 #include <utility>
 
-GameOverPanel::GameOverPanel(const Data &data, Highscore highscore_)
+GameOverPanel::GameOverPanel(EatKanoPanel::Mode mode_,const Data &data, Highscore highscore_)
     : data_(data), highscore_(std::move(highscore_)), restart_(new ButtonBox(300, 100)) {
     data_ = data;
-    highscore_.isHighscore(data_);
-    //    if (data_.get_score() > highscore_.get_score()) {
-    //        highscore_.set_score(data_.get_score());
-    //        highscore_.set_name(data_.get_name());
-    //    }
-    //    highscore_.save();
+    if (highscore_.isHighscore(data_)) {
+        highscore_.Add(data_);
+        highscore_.save();
+        if (mode_ == EatKanoPanel::ENDLESS)
+            getOptions().endlessHighscore_= highscore_;
+        else if (mode_ == EatKanoPanel::NORMAL)
+            getOptions().normalHighscore_ = highscore_;
+    }
 }
 
 void GameOverPanel::step() {}
