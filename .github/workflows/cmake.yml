@@ -25,6 +25,17 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: git submodule init && git submodule update && cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
+    - name: brew update
+      run: brew update
+    - name: SDL2
+      run: brew install sdl2
+    - name: SDL2 image
+      run: brew install sdl2_image
+    - name: SDL2 ttf
+      run: brew install sdl2_ttf
+    - name: SDL2 mixer
+      run: brew install sdl2_mixer
+      
     - name: Build
       # Build your program with the given configuration
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
