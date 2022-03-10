@@ -29,7 +29,7 @@ void OptionsMenu::step() { StepWidgets(); }
 void OptionsMenu::draw() const {
     GetScreen().DrawCentered("./image/background.png", 0, 0);
     DrawWidgets();
-    jngl::setFontColor(0, 0, 0);
+    jngl::setFontColor(255, 255, 255);
     jngl::setFontSize(40);
     GetScreen().printCentered("设置点击前的图", {0, -500});
     GetScreen().printCentered("设置点击后的图", {0, -350});

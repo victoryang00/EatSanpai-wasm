@@ -91,7 +91,7 @@ void EatKanoPanel::onQuitEvent() {
 
 void EatKanoPanel::DrawTime(const int x, const int y) const {
     jngl::setFontSize(60);
-    jngl::setFontColor(255, 255, 255);
+    jngl::setFontColor(0, 0, 0);
     jngl::print("Time: ", x, y);
     auto time = getTime();
     int minutes = int(time / 60);

@@ -34,7 +34,7 @@ void StartPanel::draw() const {
     jngl::setFontColor(255, 255, 0);
     jngl::print("迫真音游", -250, -420);
     jngl::setFontSize(50);
-    jngl::setFontColor(0, 0, 0);
+    jngl::setFontColor(255, 255, 255);
     jngl::print("从最底下仙贝的开始", -250, -350);
     jngl::print("看你20秒多少分", -250, -300);
     jngl::popMatrix();
