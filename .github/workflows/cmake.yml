@@ -20,19 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: brew update
-      run: brew update
-    - name: SDL2
-      run: brew install sdl2
-    - name: SDL2 image
-      run: brew install sdl2_image
-    - name: SDL2 ttf
-      run: brew install sdl2_ttf
-    - name: SDL2 mixer
-      run: brew install sdl2_mixer
-    - name: boost
-      run: brew install boost
-    - name: libpng
-      run: brew install libpng
+      run: brew install sdl2 freetype libvorbis libepoxy jpeg webp pkg-config boost cmake
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
