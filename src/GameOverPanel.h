@@ -18,6 +18,7 @@ public:
     void step() override;
     void draw() const override;
     void onQuitEvent() override;
+    void OnBack(EatKanoPanel::Mode mode_) const;
     void BlinkHighscore(Data data);
 private:
     Data data_;

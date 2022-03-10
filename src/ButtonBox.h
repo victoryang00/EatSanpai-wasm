@@ -72,16 +72,29 @@ private:
 
 class HiddenButton : public Button {
 public:
-    explicit HiddenButton(std::function<void()> callback, char key_, const std::string &normal = "clicked",
-                          const std::string &mouseOver = "clicked", const std::string &clicked = "clicked");
+    explicit HiddenButton(std::function<void()> callback, char key_, int x, int y,
+                          const std::string &normal = "clicked", const std::string &mouseOver = "clicked",
+                          const std::string &clicked = "clicked");
     void step() override;
     void draw() const override;
     void Blink();
-    void SetDown();
+    void setDown();
 
 private:
     const char key_;
-    char isDown_ =false;
+    char isDown_ = false;
 };
 
+class SenPai : public Button {
+public:
+    explicit SenPai(std::function<void()> callback, char key_, int x, int y);
+    void step() override;
+    void draw() const override;
+    void Blink();
+    void setDown();
+
+private:
+    const char key_;
+    char isDown_ = false;
+};
 #endif // RYAN_TEACHING_WINTER_SESSION_BUTTONBOX_H

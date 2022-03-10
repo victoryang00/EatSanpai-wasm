@@ -21,7 +21,6 @@ public:
     void Endless() const;
     void Practice() const;
     void OptionsMenuCallback() const;
-    void QuitGame() const;
 
 private:
     std::shared_ptr<ButtonBox> buttonBox_;

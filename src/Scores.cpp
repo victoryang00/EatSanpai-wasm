@@ -15,7 +15,7 @@
 #include <utility>
 
 Data::Data() : score(0), time(0) {}
-Data::Data(int score_, int time_) : score(score_), time(time_) {}
+Data::Data(float score_, int time_) : score(score_), time(time_) {}
 
 HighScore::HighScore(EatKanoPanel::Mode type) : type_(type), blink_(nullptr) {
     switch (type) {

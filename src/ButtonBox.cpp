@@ -3,6 +3,7 @@
 //
 
 #include "ButtonBox.h"
+#include "engine/Options.h"
 #include "engine/Paths.h"
 #include "engine/Screen.h"
 #include <jngl/all.hpp>
@@ -126,28 +127,30 @@ void ButtonBox::onAdd(Work &work) {
     }
 }
 
-HiddenButton::HiddenButton(std::function<void()> callback, char key_,
-                           const std::string &normal, const std::string &mouseOver, const std::string &clicked)
-    :  Button("", std::move(callback), normal, mouseOver, clicked), key_(key_) {
+HiddenButton::HiddenButton(std::function<void()> callback, char key_, int x, int y, const std::string &normal,
+                           const std::string &mouseOver, const std::string &clicked)
+    : Button("", std::move(callback), normal, mouseOver, clicked), key_(key_) {
     setSensitive(false);
+    this->setCenter(x, y);
 }
 
-void HiddenButton::Blink() {
+void HiddenButton::Blink() {}
 
-}
+void HiddenButton::draw() const { Button::draw(); }
 
-void HiddenButton::draw() const {
-    Button::draw();
-}
-
-void HiddenButton::step()  {
+void HiddenButton::step() {
     Button::step();
-    if (jngl::keyPressed(key_)&& isDown_){
-
+    if (jngl::keyPressed(key_) && isDown_) {
     }
 }
 
-void HiddenButton::SetDown() {
-    isDown_ = true;
-}
+void HiddenButton::setDown() { isDown_ = true; }
 
+SenPai::SenPai(std::function<void()> callback, char key_, int x, int y)
+    : Button("", std::move(callback), getOptions().preimg, getOptions().preimg, getOptions().postimg), key_(key_) {}
+
+void SenPai::step() { Button::step(); }
+
+void SenPai::draw() const { Button::draw(); }
+
+void SenPai::setDown() { isDown_ = true; }

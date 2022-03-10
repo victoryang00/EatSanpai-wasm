@@ -13,8 +13,8 @@
 
 struct Data {
     Data();
-    Data(int, int);
-    int score;
+    Data(float, int);
+    float score;
     double time;
     std::string name;
     std::weak_ordering operator<=>(const Data &rhs) const = default;

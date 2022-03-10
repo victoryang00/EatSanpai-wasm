@@ -45,5 +45,3 @@ void StartPanel::Endless() const { jngl::setWork(std::make_shared<Fade>(std::mak
 void StartPanel::Practice() const { jngl::setWork(std::make_shared<Fade>(std::make_shared<EatKanoPanel>(mode_))); }
 
 void StartPanel::OptionsMenuCallback() const { jngl::setWork(std::make_shared<Fade>(std::make_shared<OptionsMenu>())); }
-
-void StartPanel::QuitGame() const { jngl::quit(); }
