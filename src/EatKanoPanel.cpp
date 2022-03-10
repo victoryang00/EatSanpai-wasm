@@ -36,7 +36,7 @@ void EatKanoPanel::draw() const {
         j++;
     }
     if (getType() == Mode::NORMAL) {
-        DrawTime(450, 220);
+        DrawTime(-200, -400);
     } else if (getType() == Mode::ENDLESS) {
         DrawCPS();
     }
@@ -46,8 +46,8 @@ void EatKanoPanel::step() {
 
     for (auto &inner_map_ : map_)
         for (auto &inner_map_2 : inner_map_) {
-            check_box_.emplace_back(std::make_shared<HiddenButton>(HiddenButton(
-                    [this] { UpdatePanel(); }, keys_[j % 4], std::get<0>(inner_map_2), std::get<1>(inner_map_2))));
+            check_box_.emplace_back(
+                std::make_shared<HiddenButton>(HiddenButton([this] { UpdatePanel(); }, keys_[j % 4])));
             j++;
         }
     /** Draw the hidden box */
@@ -57,9 +57,9 @@ void EatKanoPanel::step() {
     /** To determine the game over or not */
     if (gameOver()) {
         /** Show the music and blink */
-        jngl::play("../music/end.ogg");
+        jngl::play("./music/end.ogg");
         std::__libcpp_thread_sleep_for(std::chrono::milliseconds(1000));
-        jngl::play("../music/err.ogg");
+        jngl::play("./music/err.ogg");
         //        pauseTime_ = jngl::getTime();
         if (getType() == Mode::NORMAL) {
             jngl::setWork(std::make_shared<GameOverPanel>(type_, Data(), getOptions().normalHighscore_));
@@ -96,21 +96,21 @@ void EatKanoPanel::onQuitEvent() {
 
 void EatKanoPanel::DrawTime(const int x, const int y) const {
     jngl::print("Time: ", x, y);
-    double time = getTime();
+    auto time = getTime();
     int minutes = int(time / 60);
     int seconds = int(time - minutes * 60);
     if (started_) {
         std::stringstream sstream;
         sstream.fill('0');
-        sstream << minutes << ":" << std::setw(2) << seconds;
-        jngl::print(sstream.str(), 450, y + 100);
+        sstream << seconds;
+        jngl::print(sstream.str(), x + 300, y);
     } else {
-        jngl::print("20", 450, y + 100);
+        jngl::print("20", x + 300, y);
     }
 }
 
-double EatKanoPanel::getTime() const {
-    return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now() - start_time_).count();
+long long EatKanoPanel::getTime() const {
+    return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - start_time_).count();
 }
 
 EatKanoPanel::Mode EatKanoPanel::getType() const { return type_; }
@@ -132,6 +132,7 @@ void EatKanoPanel::DrawCPS() const {
 float EatKanoPanel::calCPS() const { return score / getTime(); }
 
 void EatKanoPanel::UpdatePanel() {
+    /** make the updated button clicked and check one by one, if not success blink, if success rerand */
     for (int &i : curr_panel) {
         auto rand_int = calRand();
         i = rand_int;
@@ -139,5 +140,5 @@ void EatKanoPanel::UpdatePanel() {
     if (!started_) {
         started_ = true;
     }
-    jngl::play("../music/tap.ogg");
+    jngl::play("./music/tap.ogg");
 }

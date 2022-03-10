@@ -126,13 +126,28 @@ void ButtonBox::onAdd(Work &work) {
     }
 }
 
-HiddenButton::HiddenButton(std::function<void()> callback, char key_, int xCenter, int yCenter,
+HiddenButton::HiddenButton(std::function<void()> callback, char key_,
                            const std::string &normal, const std::string &mouseOver, const std::string &clicked)
-    : xCenter_(xCenter), yCenter_(yCenter), Button("", std::move(callback), normal, mouseOver, clicked), key_(key_) {
-    this->setCenter(xCenter, yCenter);
+    :  Button("", std::move(callback), normal, mouseOver, clicked), key_(key_) {
     setSensitive(false);
 }
 
-void HiddenButton::SetClicked(const std::string &clicked) {
-    this->spriteClicked = jngl::Sprite(getPaths().getGraphics() + clicked);
+void HiddenButton::Blink() {
+
 }
+
+void HiddenButton::draw() const {
+    Button::draw();
+}
+
+void HiddenButton::step()  {
+    Button::step();
+    if (jngl::keyPressed(key_)&& isDown_){
+
+    }
+}
+
+void HiddenButton::SetDown() {
+    isDown_ = true;
+}
+

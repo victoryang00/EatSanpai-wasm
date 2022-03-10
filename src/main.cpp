@@ -28,7 +28,7 @@ std::function<std::shared_ptr<jngl::Work>()> jnglInit(jngl::AppParameters &param
 #ifdef NDEBUG
     } catch (std::exception &e) {
         jngl::errorMessage(e.what());
-        return false;
+        return {};
     }
 #endif
 }

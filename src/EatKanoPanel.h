@@ -5,8 +5,8 @@
 #ifndef RYAN_TEACHING_WINTER_SESSION_EATKANOPANEL_H
 #define RYAN_TEACHING_WINTER_SESSION_EATKANOPANEL_H
 
-#include "engine/Work.h"
 #include "ButtonBox.h"
+#include "engine/Work.h"
 #include <iostream>
 #include <jngl/all.hpp>
 #include <random>
@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] float calCPS() const;
 
-    [[nodiscard]] double getTime() const;
+    [[nodiscard]] long long getTime() const;
 
     void onQuitEvent() override;
 
