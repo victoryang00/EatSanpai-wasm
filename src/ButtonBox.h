@@ -41,6 +41,9 @@ public:
 
     void step() override;
 
+protected:
+    jngl::Sprite spriteClicked;
+
 private:
     std::string text_;
     int mouseoverAlpha_;
@@ -48,7 +51,6 @@ private:
     bool clicked_;
     jngl::Sprite sprite;
     jngl::Sprite spriteMouseOver;
-    jngl::Sprite spriteClicked;
     const static int fontSize_;
 };
 
@@ -68,26 +70,17 @@ private:
     const static int spacing_;
 };
 
-class HiddenButton : public Widget {
+class HiddenButton : public Button {
 public:
-    explicit HiddenButton(std::function<void()> callback, int xCenter, int yCenter, const std::string &normal = "blank",
-                 const std::string &mouseOver = "blank", const std::string &clicked = "clicked");
+    explicit HiddenButton(std::function<void()> callback, char key_, int xCenter, int yCenter,
+                          const std::string &normal = "clicked", const std::string &mouseOver = "clicked",
+                          const std::string &clicked = "clicked");
 
-    void Set_clicked(const std::string& clicked);
-
-    void draw() const override;
-
-    void step() override;
+    void SetClicked(const std::string &clicked);
 
 private:
-    int mouseoverAlpha_;
-    std::function<void()> callback_;
-    bool clicked_;
-    jngl::Sprite sprite;
-    jngl::Sprite spriteMouseOver;
-    jngl::Sprite spriteClicked;
-    const static int fontSize_;
     const int xCenter_, yCenter_;
+    const char key_;
 };
 
 #endif // RYAN_TEACHING_WINTER_SESSION_BUTTONBOX_H

@@ -15,12 +15,6 @@
 
 EatKanoPanel::EatKanoPanel(const Mode type) : type_(type) {
     int j = 0;
-    for (auto &inner_map_ : map_)
-        for (auto &inner_map_2 : inner_map_)
-            check_box_.emplace_back(std::make_shared<HiddenButton>(
-                HiddenButton([this] { UpdatePanel(); }, std::get<0>(inner_map_2), std::get<1>(inner_map_2))));
-    for (auto &i : check_box_)
-        addWidget(i);
     for (auto &&i : getOptions().inputKey) {
         keys_[j] = i;
         j++;
@@ -35,7 +29,12 @@ EatKanoPanel::EatKanoPanel(const Mode type) : type_(type) {
 }
 
 void EatKanoPanel::draw() const {
+    int j = 0;
     GetScreen().DrawCentered("./image/board.png", 0, 0);
+    for (auto &i : curr_panel) {
+        GetScreen().DrawCentered(getOptions().preimg, std::get<0>(map_[j][i]), std::get<1>(map_[j][i]));
+        j++;
+    }
     if (getType() == Mode::NORMAL) {
         DrawTime(450, 220);
     } else if (getType() == Mode::ENDLESS) {
@@ -43,7 +42,18 @@ void EatKanoPanel::draw() const {
     }
 }
 void EatKanoPanel::step() {
-    //    StepToRotateScreen();
+    int j = 0;
+
+    for (auto &inner_map_ : map_)
+        for (auto &inner_map_2 : inner_map_) {
+            check_box_.emplace_back(std::make_shared<HiddenButton>(HiddenButton(
+                    [this] { UpdatePanel(); }, keys_[j % 4], std::get<0>(inner_map_2), std::get<1>(inner_map_2))));
+            j++;
+        }
+    /** Draw the hidden box */
+    for (auto &i : check_box_)
+        addWidget(i);
+
     /** To determine the game over or not */
     if (gameOver()) {
         /** Show the music and blink */
@@ -119,11 +129,15 @@ void EatKanoPanel::DrawCPS() const {
     jngl::print(sstream.str(), 450, 300);
 }
 
-float EatKanoPanel::calCPS() const { return score/getTime(); }
+float EatKanoPanel::calCPS() const { return score / getTime(); }
 
 void EatKanoPanel::UpdatePanel() {
-    if (!started_){
+    for (int &i : curr_panel) {
+        auto rand_int = calRand();
+        i = rand_int;
+    }
+    if (!started_) {
         started_ = true;
     }
+    jngl::play("../music/tap.ogg");
 }
-
