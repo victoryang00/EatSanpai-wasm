@@ -4,31 +4,31 @@ project(Ryan_teaching_winter_session LANGUAGES C CXX)
 
 set(CPM_DOWNLOAD_VERSION 0.34.3)
 
-IF(APPLE)
+IF (APPLE)
     set(CMAKE_THREAD_LIBS_INIT "-lpthread")
     set(CMAKE_HAVE_THREADS_LIBRARY 1)
     set(CMAKE_USE_WIN32_THREADS_INIT 0)
     set(CMAKE_USE_PTHREADS_INIT 1)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
-ENDIF()
+ENDIF ()
 
-if(CPM_SOURCE_CACHE)
-    # Expand relative path. This is important if the provided path contains a tilde (~)
+if (CPM_SOURCE_CACHE)
+    #Expand relative path.This is important if the provided path contains a tilde(~)
     get_filename_component(CPM_SOURCE_CACHE ${CPM_SOURCE_CACHE} ABSOLUTE)
     set(CPM_DOWNLOAD_LOCATION "${CPM_SOURCE_CACHE}/cpm/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
-elseif(DEFINED ENV{CPM_SOURCE_CACHE})
+elseif (DEFINED ENV{CPM_SOURCE_CACHE})
     set(CPM_DOWNLOAD_LOCATION "$ENV{CPM_SOURCE_CACHE}/cpm/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
-else()
+else ()
     set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
-endif()
+endif ()
 
-if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
+if (NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
     message(STATUS "Downloading CPM.cmake to ${CPM_DOWNLOAD_LOCATION}")
     file(DOWNLOAD
             https://github.com/cpm-cmake/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake
             ${CPM_DOWNLOAD_LOCATION}
             )
-endif()
+endif ()
 
 include(${CPM_DOWNLOAD_LOCATION})
 
@@ -40,10 +40,9 @@ if (NOT MSVC)
 endif ()
 if (CMAKE_CXX_COMPILER MATCHES "em\\+\\+(-[a-zA-Z0-9.])?$")
     message(STATUS "Using em++")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s USE_ZLIB=1 -s FULL_ES3=1 -s USE_LIBPNG=1 -s ALLOW_MEMORY_GROWTH=1 -s MAX_WEBGL_VERSION=2 -s MIN_WEBGL_VERSION=2 -s USE_VORBIS=1 -s USE_FREETYPE=1 -s USE_BOOST_HEADERS=1 -s USE_LIBJPEG=1 -s USE_GIFLIB=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=['bmp'] -s USE_SDL_TTF=2")
-else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -s NO_DISABLE_EXCEPTION_CATCHING -s USE_ZLIB=1 -s FULL_ES3=1 -s USE_LIBPNG=1 -s ALLOW_MEMORY_GROWTH=1 -s MAX_WEBGL_VERSION=2 -s MIN_WEBGL_VERSION=2 -s USE_VORBIS=1 -s USE_FREETYPE=1 -s USE_BOOST_HEADERS=1 -s USE_LIBJPEG=1 -s USE_GIFLIB=1 -s USE_SDL=2 -s USE_SDL_IMAGE=2 -s SDL2_IMAGE_FORMATS=['bmp'] -s USE_SDL_TTF=2")
+else ()
     include(CheckCCompilerFlag)
-
     set(CMAKE_REQUIRED_LINK_OPTIONS "-arch;x86_64")
     check_c_compiler_flag("-arch x86_64" x86_64Supported)
     message("x86_64Supported=${x86_64Supported}")
@@ -102,7 +101,6 @@ if (ANDROID)
             z
             jngl
             )
-
 
     add_library(bootstrap SHARED android/app/src/main/cpp/bootstrap.cpp src/game.cpp src/game.h)
 

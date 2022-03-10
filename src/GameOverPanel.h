@@ -14,14 +14,14 @@ class EatKanoPanel;
 
 class GameOverPanel : public Work {
 public:
-    GameOverPanel(EatKanoPanel::Mode mode_, const Data &, Highscore);
+    GameOverPanel(EatKanoPanel::Mode mode_, const Data &, HighScore);
     void step() override;
     void draw() const override;
     void onQuitEvent() override;
     void BlinkHighscore(Data data);
 private:
     Data data_;
-    Highscore highscore_;
+    HighScore highscore_;
     std::shared_ptr<ButtonBox> restart_;
 };
 

@@ -41,6 +41,7 @@ void OptionsMenu::OnBack() const {
     getOptions().inputKey = input_->getText();
     getOptions().preimg = select_preimg_->getText();
     getOptions().postimg = select_postimg_->getText();
+    getOptions().title_ = headline_->getText();
     getOptions().Save();
     jngl::setWork(std::make_shared<Fade>(std::make_shared<StartPanel>()));
 }

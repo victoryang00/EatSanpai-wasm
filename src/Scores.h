@@ -13,15 +13,16 @@
 
 struct Data {
     Data();
+    Data(int, int);
     int score;
     double time;
     std::string name;
     std::weak_ordering operator<=>(const Data &rhs) const = default;
 };
 
-class Highscore {
+class HighScore {
 public:
-    explicit Highscore(EatKanoPanel::Mode type);
+    explicit HighScore(EatKanoPanel::Mode type);
     [[nodiscard]] bool isHighscore(const Data &data) const;
     void draw() const;
     void Add(const Data &);

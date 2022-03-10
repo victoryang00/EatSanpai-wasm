@@ -1,6 +1,5 @@
 #pragma once
 
-//#include <memory>
 #include <jngl/work.hpp>
 #include <vector>
 
@@ -8,9 +7,9 @@ class Widget;
 
 class Work : public jngl::Work {
 public:
-    virtual void step() = 0;
-    virtual void draw() const = 0;
-    virtual ~Work();
+    void step() override = 0;
+    void draw() const override = 0;
+    ~Work() override;
     void StepWidgets();
     void DrawWidgets() const;
     void addWidget(const std::shared_ptr<Widget> &);

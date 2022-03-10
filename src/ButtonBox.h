@@ -15,7 +15,7 @@ class Work;
 
 class Widget : public jngl::Drawable {
 public:
-    bool getSensitive() const;
+    [[nodiscard]] bool getSensitive() const;
 
     void setSensitive(bool);
 
@@ -66,6 +66,28 @@ private:
     std::vector<std::shared_ptr<Button>> buttons_;
     const int xCenter_, yCenter_;
     const static int spacing_;
+};
+
+class HiddenButton : public Widget {
+public:
+    explicit HiddenButton(std::function<void()> callback, int xCenter, int yCenter, const std::string &normal = "blank",
+                 const std::string &mouseOver = "blank", const std::string &clicked = "clicked");
+
+    void Set_clicked(const std::string& clicked);
+
+    void draw() const override;
+
+    void step() override;
+
+private:
+    int mouseoverAlpha_;
+    std::function<void()> callback_;
+    bool clicked_;
+    jngl::Sprite sprite;
+    jngl::Sprite spriteMouseOver;
+    jngl::Sprite spriteClicked;
+    const static int fontSize_;
+    const int xCenter_, yCenter_;
 };
 
 #endif // RYAN_TEACHING_WINTER_SESSION_BUTTONBOX_H

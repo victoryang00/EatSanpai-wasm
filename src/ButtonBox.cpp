@@ -125,3 +125,71 @@ void ButtonBox::onAdd(Work &work) {
         work.addWidget(button);
     }
 }
+
+const int HiddenButton::fontSize_ = 70;
+
+HiddenButton::HiddenButton(std::function<void()> callback, int xCenter, int yCenter, const std::string &normal,
+                           const std::string &mouseOver, const std::string &clicked)
+    : mouseoverAlpha_(0), callback_(std::move(callback)), clicked_(false), sprite(getPaths().getGraphics() + normal),
+      spriteMouseOver(getPaths().getGraphics() + mouseOver), spriteClicked(getPaths().getGraphics() + clicked),
+      xCenter_(xCenter), yCenter_(yCenter) {
+    setSensitive(false);
+    width = sprite.getWidth() * jngl::getScaleFactor();
+    height = sprite.getHeight() * jngl::getScaleFactor();
+}
+
+void HiddenButton::draw() const {
+    int alpha = mouseoverAlpha_;
+    if (clicked_) {
+        alpha -= 100;
+    }
+    auto mv = jngl::modelview().translate(getCenter());
+    sprite.draw(mv.scale(1.0f + (alpha / 6000.0f)));
+    if (focus) {
+        spriteMouseOver.draw(mv);
+    }
+    jngl::setSpriteColor(255, 255, 255, alpha);
+    jngl::pushMatrix();
+    spriteMouseOver.draw(mv.scale(1.0f + (alpha / 6000.0f)));
+    jngl::popMatrix();
+    jngl::setSpriteColor(255, 255, 255, 255);
+    if (clicked_) {
+        spriteClicked.draw(mv.scale(1.0f + (alpha / 6000.0f)));
+    }
+    jngl::setFontColor(255, 255, 255);
+    jngl::setFontSize(fontSize_);
+}
+
+void HiddenButton::step() {
+    if (!jngl::mouseDown()) {
+        clicked_ = false;
+    }
+    const int alphaSpeed = 20;
+    if (focus) {
+        if (jngl::keyPressed(jngl::key::Space) || jngl::keyPressed(jngl::key::Return)) {
+            clicked_ = true;
+            callback_();
+        }
+    }
+    if (sensitive && contains(jngl::getMousePos())) {
+        if (mouseoverAlpha_ < 255) {
+            mouseoverAlpha_ += alphaSpeed;
+        }
+        if (jngl::mousePressed()) {
+            clicked_ = true;
+            callback_();
+        }
+    } else if (mouseoverAlpha_ > 0) {
+        mouseoverAlpha_ -= alphaSpeed;
+    }
+    if (mouseoverAlpha_ > 255) {
+        mouseoverAlpha_ = 255;
+    }
+    if (mouseoverAlpha_ < 0) {
+        mouseoverAlpha_ = 0;
+    }
+}
+
+void HiddenButton::Set_clicked(const std::string &clicked) {
+    spriteClicked = jngl::Sprite(getPaths().getGraphics() + clicked);
+}

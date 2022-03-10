@@ -7,7 +7,7 @@
 
 #include <utility>
 
-GameOverPanel::GameOverPanel(EatKanoPanel::Mode mode_,const Data &data, Highscore highscore_)
+GameOverPanel::GameOverPanel(EatKanoPanel::Mode mode_, const Data &data, HighScore highscore_)
     : data_(data), highscore_(std::move(highscore_)), restart_(new ButtonBox(300, 100)) {
     data_ = data;
     if (highscore_.isHighscore(data_)) {

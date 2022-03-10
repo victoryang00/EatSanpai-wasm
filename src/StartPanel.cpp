@@ -8,11 +8,9 @@
 #include "EatKanoPanel.h"
 #include "OptionsMenu.h"
 #include "engine/Fade.h"
-#include "engine/Paths.h"
-#include "engine/Procedure.h"
+#include "engine/Options.h"
 #include "engine/Screen.h"
 
-#include <ctime>
 #include <jngl/all.hpp>
 
 StartPanel::StartPanel() : buttonBox_(new ButtonBox(0, 200)), mode_(EatKanoPanel::Mode::NORMAL) {

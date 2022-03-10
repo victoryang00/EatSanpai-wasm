@@ -14,10 +14,11 @@ public:
     int windowHeight = 1280;
     bool fullscreen = false;
     std::string inputKey = "asdf";
-    std::string postimg = "./image/ClickBefore.png";
-    std::string preimg = "./image/AfterClicking.png";
-    Highscore endlessHighscore_;
-    Highscore normalHighscore_;
+    std::string preimg = "./image/ClickBefore.png";
+    std::string postimg = "./image/AfterClicking.png";
+    HighScore endlessHighscore_;
+    std::string title_;
+    HighScore normalHighscore_;
 
 private:
     std::string filename;
