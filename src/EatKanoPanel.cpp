@@ -9,8 +9,9 @@
 
 #include <boost/lexical_cast.hpp>
 #include <iomanip>
+#include <thread>
 
-bool clicked_wrong;
+bool clicked_wrong = false;
 
 EatKanoPanel::EatKanoPanel(const Mode type) : type_(type), score(0) {
 
@@ -48,15 +49,19 @@ EatKanoPanel::EatKanoPanel(const Mode type) : type_(type), score(0) {
         senpai_->setCenter(std::get<0>(map_[j][i]), std::get<1>(map_[j][i]));
         j++;
     }
+    this->widgets_[5]->setDown();
+
+    /** Update correctness */
+    this->check_box_[20 + curr_panel[5]]->setCorrect();
 }
 
 void EatKanoPanel::draw() const {
     GetScreen().DrawCentered("./image/board.png", 0, 0);
 
     if (getType() == Mode::NORMAL) {
-        DrawTime(-200, -400);
+        DrawTime(-200, -410);
     } else if (getType() == Mode::ENDLESS) {
-        DrawCPS();
+        DrawCPS(-200, -410);
     }
     DrawWidgets();
 }
@@ -67,9 +72,9 @@ void EatKanoPanel::step() {
     if (gameOver()) {
         /** Show the music and blink */
         jngl::play("./music/end.ogg");
-        std::__libcpp_thread_sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         jngl::play("./music/err.ogg");
-        std::__libcpp_thread_sleep_for(std::chrono::milliseconds(5000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 
         if (getType() == Mode::NORMAL) {
             jngl::setWork(std::make_shared<GameOverPanel>(type_, Data(score, time_), getOptions().normalHighscore_));
@@ -77,6 +82,14 @@ void EatKanoPanel::step() {
             jngl::setWork(
                 std::make_shared<GameOverPanel>(type_, Data(calCPS(), time_), getOptions().endlessHighscore_));
         }
+    } else {
+        int j = 0;
+        for (auto &i : curr_panel) {
+            widgets_[j]->setCenter(std::get<0>(map_[j][i]), std::get<1>(map_[j][i]));
+
+            j++;
+        }
+        DrawWidgets();
     }
 
     if (jngl::keyPressed('p') || jngl::keyPressed(jngl::key::Escape)) {
@@ -123,13 +136,15 @@ bool EatKanoPanel::gameOver() const {
     return false;
 }
 
-void EatKanoPanel::DrawCPS() const {
+void EatKanoPanel::DrawCPS(const int x, const int y) const {
     jngl::setFontSize(60);
     jngl::setFontColor(255, 255, 255);
-    jngl::print("CPS: ", -200, -400);
+    jngl::print("CPS: ", x, y);
     std::stringstream sstream;
+    sstream.fill('0');
+    sstream << calCPS();
     sstream << std::fixed << std::setprecision(2) << calCPS();
-    jngl::print(sstream.str(), 20, -400);
+    jngl::print(sstream.str(), x + 220, y);
 }
 
 float EatKanoPanel::calCPS() const { return score / getTime(); }
@@ -139,10 +154,21 @@ void EatKanoPanel::UpdatePanel() {
     if (clicked_wrong) {
         return;
     }
-    for (int i = 0; i < 4; i++) {
-        curr_panel[i + 1] = curr_panel[i];
+    /** Update rand */
+    int new_curr_panel[6] = {0, 0, 0, 0, 0, 0};
+    for (int i = 1; i < 6; i++) {
+        new_curr_panel[i] = curr_panel[i - 1];
     }
-    curr_panel[0] = calRand();
+    new_curr_panel[0] = calRand();
+    std::memcpy(curr_panel, new_curr_panel, sizeof(new_curr_panel));
+    /** Update down */
+    this->widgets_[5]->setDown();
+
+    /** Update correctness */
+    for (int i = 0; i < 4; i++) {
+        check_box_[i + 20]->setIncorrect();
+    }
+    this->check_box_[20 + curr_panel[5]]->setCorrect();
 
     for (int i = 0; i < 3; i++) {
         this->check_box_[20 + i]->setDown();

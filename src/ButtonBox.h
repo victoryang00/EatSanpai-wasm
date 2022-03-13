@@ -6,6 +6,7 @@
 #define RYAN_TEACHING_WINTER_SESSION_BUTTONBOX_H
 
 #include "engine/Work.h"
+#include "Explosion.h"
 #include <functional>
 #include <jngl/Drawable.hpp>
 #include <jngl/sprite.hpp>
@@ -45,11 +46,11 @@ protected:
     jngl::Sprite spriteClicked;
     std::function<void()> callback_;
     int mouseoverAlpha_;
+    bool clicked_;
+    jngl::Sprite sprite;
 
 private:
     std::string text_;
-    bool clicked_;
-    jngl::Sprite sprite;
     jngl::Sprite spriteMouseOver;
     const static int fontSize_;
 };
@@ -72,20 +73,22 @@ private:
 
 class HiddenButton : public Button {
 public:
-    explicit HiddenButton(std::function<void()> callback, char key_, int x, int y,
-                          const std::string &normal = "blank", const std::string &mouseOver = "blank",
-                          const std::string &clicked = "blank");
+    explicit HiddenButton(std::function<void()> callback, char key_, int x, int y, const std::string &normal = "blank",
+                          const std::string &mouseOver = "blank", const std::string &clicked = "clicked");
     void step() override;
     void draw() const override;
     void Blink();
     void setDown();
+    void setCorrect();
+    void setIncorrect();
 
 private:
     const char key_;
-    char isDown_ = false;
+    bool isDown_ = false;
+    bool isCorrect_ = false;
     int x_, y_;
-    std::string clicked_;
-    std::string normal_;
+    Explosion explosion_;
+    int counter_ = 50;
 };
 
 class SenPai : public Button {

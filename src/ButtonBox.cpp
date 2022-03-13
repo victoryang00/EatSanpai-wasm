@@ -132,30 +132,32 @@ void ButtonBox::onAdd(Work &work) {
 
 HiddenButton::HiddenButton(std::function<void()> callback, char key_, int x, int y, const std::string &normal,
                            const std::string &mouseOver, const std::string &clicked)
-    : Button("", std::move(callback), normal, mouseOver, clicked), key_(key_), x_(x), y_(y),
-      normal_("../image/" + normal), clicked_("../image/" + clicked) {
+    : Button("", std::move(callback), normal, mouseOver, clicked), key_(key_), explosion_(Explosion(x, y, "clicked")) {
     setSensitive(false);
     this->setCenter(x, y);
 }
 
 void HiddenButton::Blink() {
-    for (int i = 0; i < 100; i++) {
-        GetScreen().DrawCentered(clicked_, x_, y_);
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
-        GetScreen().DrawCentered(normal_, x_, y_);
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
+    --counter_;
+    if (counter_ % 5 == 0) {
+        explosion_ = Explosion(x_, y_, "clicked");
     }
 }
 
-void HiddenButton::draw() const { Button::draw(); }
+void HiddenButton::draw() const {
+    Button::draw();
+}
 
 void HiddenButton::step() {
-    //    Button::step();
+    if (isDown_) {
+        this->sensitive = true;
+    } else {
+        this->sensitive = false;
+    }
     if (jngl::keyPressed(key_) && isDown_) {
         isDown_ = false;
         clicked_wrong = true;
         Blink();
-        callback_();
     }
     if (!jngl::mouseDown()) {
         clicked_ = false;
@@ -163,11 +165,10 @@ void HiddenButton::step() {
     const int alphaSpeed = 20;
     if (focus) {
         if (jngl::keyPressed(jngl::key::Space) || jngl::keyPressed(jngl::key::Return)) {
-            if (isDown_) {
+            if (isDown_ && !isCorrect_) {
                 clicked_wrong = true;
                 Blink();
                 clicked_ = true;
-                callback_();
             }
         }
     }
@@ -176,11 +177,10 @@ void HiddenButton::step() {
             mouseoverAlpha_ += alphaSpeed;
         }
         if (jngl::mousePressed()) {
-            if (isDown_) {
+            if (isDown_ && !isCorrect_) {
                 clicked_wrong = true;
                 Blink();
                 clicked_ = true;
-                callback_();
             }
         }
     } else if (mouseoverAlpha_ > 0) {
@@ -192,9 +192,17 @@ void HiddenButton::step() {
     if (mouseoverAlpha_ < 0) {
         mouseoverAlpha_ = 0;
     }
+    if (counter_ < 50) {
+        explosion_.Draw();
+        explosion_.Step();
+    }
+    if (counter_ == 0)
+        callback_();
 }
 
 void HiddenButton::setDown() { isDown_ = true; }
+void HiddenButton::setCorrect() { isCorrect_ = true; }
+void HiddenButton::setIncorrect() { isCorrect_ = false; }
 
 SenPai::SenPai(std::function<void()> callback, int x, int y)
     : Button("", std::move(callback), getOptions().preimg, getOptions().preimg, getOptions().postimg) {}

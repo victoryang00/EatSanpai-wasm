@@ -9,8 +9,10 @@
 
 #include <utility>
 
+extern bool clicked_wrong;
+
 GameOverPanel::GameOverPanel(EatKanoPanel::Mode mode_, const Data &data, HighScore highscore_)
-    : data_(data), highscore_(std::move(highscore_)), restart_(new ButtonBox(0, -300)) {
+    : data_(data), highscore_(std::move(highscore_)), restart_(new ButtonBox(0, 0)) {
     data_ = data;
     if (highscore_.isHighscore(data_)) {
         highscore_.Add(data_);
@@ -25,14 +27,14 @@ GameOverPanel::GameOverPanel(EatKanoPanel::Mode mode_, const Data &data, HighSco
     addWidget(restart_);
 }
 
-void GameOverPanel::step() {
-    StepWidgets();
+void GameOverPanel::step() { StepWidgets(); }
 
-    BlinkHighscore(data_);
-//    highscore_.Blink();
+void GameOverPanel::draw() const {
+    DrawWidgets();
+    jngl::print("Game Over", -220, -400);
+    jngl::print("Highest Score:", -280, -350);
+    jngl::print(std::to_string(data_.score), -50, -350);
 }
-
-void GameOverPanel::draw() const { DrawWidgets(); }
 
 void GameOverPanel::onQuitEvent() { Work::onQuitEvent(); }
 
@@ -40,8 +42,10 @@ void GameOverPanel::BlinkHighscore(Data data) {
     highscore_.Blink(std::move(data));
     jngl::setFontSize(60);
     jngl::setFontColor(255, 255, 0);
-    jngl::print(std::to_string(data_.score), -250, -420);
+    jngl::print(std::to_string(data_.score), -200, -400);
 }
 void GameOverPanel::OnBack(EatKanoPanel::Mode mode_) const {
+    clicked_wrong = false;
+    jngl::setSpriteAlpha(255);
     jngl::setWork(std::make_shared<Fade>(std::make_shared<EatKanoPanel>(mode_)));
 }

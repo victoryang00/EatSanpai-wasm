@@ -42,7 +42,7 @@ public:
 
     void DrawTime(int x, int y) const;
 
-    void DrawCPS() const;
+    void DrawCPS(const int x, const int y) const;
 
     void UpdatePanel();
 
