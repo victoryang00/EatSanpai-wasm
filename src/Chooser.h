@@ -8,6 +8,8 @@
 #include "ButtonBox.h"
 #include <list>
 
+class Widget;
+
 class Chooser : public Widget {
 public:
     Chooser(int x, int y);

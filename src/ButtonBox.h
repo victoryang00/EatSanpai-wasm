@@ -43,11 +43,11 @@ public:
 
 protected:
     jngl::Sprite spriteClicked;
+    std::function<void()> callback_;
+    int mouseoverAlpha_;
 
 private:
     std::string text_;
-    int mouseoverAlpha_;
-    std::function<void()> callback_;
     bool clicked_;
     jngl::Sprite sprite;
     jngl::Sprite spriteMouseOver;
@@ -73,8 +73,8 @@ private:
 class HiddenButton : public Button {
 public:
     explicit HiddenButton(std::function<void()> callback, char key_, int x, int y,
-                          const std::string &normal = "clicked", const std::string &mouseOver = "clicked",
-                          const std::string &clicked = "clicked");
+                          const std::string &normal = "blank", const std::string &mouseOver = "blank",
+                          const std::string &clicked = "blank");
     void step() override;
     void draw() const override;
     void Blink();
@@ -83,6 +83,9 @@ public:
 private:
     const char key_;
     char isDown_ = false;
+    int x_, y_;
+    std::string clicked_;
+    std::string normal_;
 };
 
 class SenPai : public Button {
@@ -90,6 +93,10 @@ public:
     explicit SenPai(std::function<void()> callback, int x, int y);
     void step() override;
     void draw() const override;
-    void Blink();
+    void setDown();
+    void setCenters(int x, int y);
+
+private:
+    bool isDown_ = false;
 };
 #endif // RYAN_TEACHING_WINTER_SESSION_BUTTONBOX_H

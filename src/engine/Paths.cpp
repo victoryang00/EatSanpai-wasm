@@ -23,7 +23,7 @@ Paths::Paths() {
     fs::current_path(fs::path(jngl::getBinaryPath()) / fs::path(".."));
     configPath = jngl::getConfigPath();
 #elif defined(__EMSCRIPTEN__)
-    configPath =  std::string(getenv("HOME")) + "/.config/" + getOptions().title_ + "/";
+    configPath = std::string(getenv("HOME")) + "/.config/" + getOptions().title_ + "/";
 #else
     const auto findDataDirectory = []() {
         fs::path binaryPath(jngl::getBinaryPath());

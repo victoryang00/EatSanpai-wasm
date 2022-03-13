@@ -57,7 +57,6 @@ private:
     std::vector<std::shared_ptr<HiddenButton>> check_box_;
     std::vector<std::shared_ptr<SenPai>> widgets_;
     std::chrono::steady_clock::time_point start_time_ = std::chrono::steady_clock::now();
-    bool clicked_wrong = false;
     bool started_ = false;
     int score;
 };

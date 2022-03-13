@@ -3,17 +3,17 @@
 //
 
 #include "EatKanoPanel.h"
-
 #include "GameOverPanel.h"
 #include "engine/Options.h"
-#include "engine/Procedure.h"
 #include "engine/Screen.h"
 
 #include <boost/lexical_cast.hpp>
-#include <boost/range.hpp>
 #include <iomanip>
 
-EatKanoPanel::EatKanoPanel(const Mode type) : type_(type) {
+bool clicked_wrong;
+
+EatKanoPanel::EatKanoPanel(const Mode type) : type_(type), score(0) {
+
     int j = 0;
     for (auto &&i : getOptions().inputKey) {
         keys_[j] = i;
@@ -41,7 +41,6 @@ EatKanoPanel::EatKanoPanel(const Mode type) : type_(type) {
     for (auto &i : check_box_)
         addWidget(i);
     j = 0;
-    GetScreen().DrawCentered("./image/board.png", 0, 0);
     for (auto &i : curr_panel) {
         auto senpai_ = std::make_shared<SenPai>(SenPai([this] { UpdatePanel(); }, keys_[j % 4], i));
         widgets_.emplace_back(senpai_);
@@ -52,6 +51,8 @@ EatKanoPanel::EatKanoPanel(const Mode type) : type_(type) {
 }
 
 void EatKanoPanel::draw() const {
+    GetScreen().DrawCentered("./image/board.png", 0, 0);
+
     if (getType() == Mode::NORMAL) {
         DrawTime(-200, -400);
     } else if (getType() == Mode::ENDLESS) {
@@ -61,6 +62,7 @@ void EatKanoPanel::draw() const {
 }
 void EatKanoPanel::step() {
     StepWidgets();
+    auto time_ = getTime();
     /** To determine the game over or not */
     if (gameOver()) {
         /** Show the music and blink */
@@ -70,11 +72,10 @@ void EatKanoPanel::step() {
         std::__libcpp_thread_sleep_for(std::chrono::milliseconds(5000));
 
         if (getType() == Mode::NORMAL) {
-            jngl::setWork(
-                std::make_shared<GameOverPanel>(type_, Data(score, getTime()), getOptions().normalHighscore_));
+            jngl::setWork(std::make_shared<GameOverPanel>(type_, Data(score, time_), getOptions().normalHighscore_));
         } else if (getType() == Mode::ENDLESS) {
             jngl::setWork(
-                std::make_shared<GameOverPanel>(type_, Data(calCPS(), getTime()), getOptions().endlessHighscore_));
+                std::make_shared<GameOverPanel>(type_, Data(calCPS(), time_), getOptions().endlessHighscore_));
         }
     }
 
@@ -99,7 +100,7 @@ void EatKanoPanel::DrawTime(const int x, const int y) const {
     if (started_) {
         std::stringstream sstream;
         sstream.fill('0');
-        sstream << seconds;
+        sstream << 20 - seconds;
         jngl::print(sstream.str(), x + 220, y);
     } else {
         jngl::print("20", x + 220, y);
@@ -125,16 +126,19 @@ bool EatKanoPanel::gameOver() const {
 void EatKanoPanel::DrawCPS() const {
     jngl::setFontSize(60);
     jngl::setFontColor(255, 255, 255);
-    jngl::print("CPS: ", 0, -200);
+    jngl::print("CPS: ", -200, -400);
     std::stringstream sstream;
     sstream << std::fixed << std::setprecision(2) << calCPS();
-    jngl::print(sstream.str(), 450, 300);
+    jngl::print(sstream.str(), 20, -400);
 }
 
 float EatKanoPanel::calCPS() const { return score / getTime(); }
 
 void EatKanoPanel::UpdatePanel() {
     /** make the updated button clicked and check one by one, if not success blink, if success rerand */
+    if (clicked_wrong) {
+        return;
+    }
     for (int i = 0; i < 4; i++) {
         curr_panel[i + 1] = curr_panel[i];
     }
