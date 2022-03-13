@@ -13,7 +13,7 @@
 
 #include <jngl/all.hpp>
 
-StartPanel::StartPanel() : buttonBox_(new ButtonBox(0, 200)), mode_(EatKanoPanel::Mode::NORMAL) {
+StartPanel::StartPanel() : buttonBox_(new ButtonBox(0, 200)){
     buttonBox_->add("Normal", [this] { Normal(); });
     buttonBox_->add("Endless", [this] { Endless(); });
     buttonBox_->add("Practice", [this] { Practice(); });
@@ -40,8 +40,8 @@ void StartPanel::draw() const {
     jngl::popMatrix();
 }
 
-void StartPanel::Normal() const { jngl::setWork(std::make_shared<Fade>(std::make_shared<EatKanoPanel>(mode_))); }
-void StartPanel::Endless() const { jngl::setWork(std::make_shared<Fade>(std::make_shared<EatKanoPanel>(mode_))); }
-void StartPanel::Practice() const { jngl::setWork(std::make_shared<Fade>(std::make_shared<EatKanoPanel>(mode_))); }
+void StartPanel::Normal() const { jngl::setWork(std::make_shared<Fade>(std::make_shared<EatKanoPanel>(EatKanoPanel::Mode::NORMAL))); }
+void StartPanel::Endless() const { jngl::setWork(std::make_shared<Fade>(std::make_shared<EatKanoPanel>(EatKanoPanel::Mode::ENDLESS))); }
+void StartPanel::Practice() const { jngl::setWork(std::make_shared<Fade>(std::make_shared<EatKanoPanel>(EatKanoPanel::Mode::PRACTICE))); }
 
 void StartPanel::OptionsMenuCallback() const { jngl::setWork(std::make_shared<Fade>(std::make_shared<OptionsMenu>())); }

@@ -40,18 +40,18 @@ EatKanoPanel::EatKanoPanel(const Mode type) : type_(type) {
     /** Draw the hidden box */
     for (auto &i : check_box_)
         addWidget(i);
+    j = 0;
+    GetScreen().DrawCentered("./image/board.png", 0, 0);
+    for (auto &i : curr_panel) {
+        auto senpai_ = std::make_shared<SenPai>(SenPai([this] { UpdatePanel(); }, keys_[j % 4], i));
+        widgets_.emplace_back(senpai_);
+        addWidget(senpai_);
+        senpai_->setCenter(std::get<0>(map_[j][i]), std::get<1>(map_[j][i]));
+        j++;
+    }
 }
 
 void EatKanoPanel::draw() const {
-    int j = 0;
-    GetScreen().DrawCentered("./image/board.png", 0, 0);
-    for (auto &i : curr_panel) {
-//        auto senpai_ = SenPai([this] { UpdatePanel(); }, keys_[j % 4], i);
-//        widgets_.emplace_back(senpai_) addWidget(senpai_);
-//        senpai_->setCenter(std::get<0>(map_[j][i]), std::get<1>(map_[j][i]))
-            //        GetScreen().DrawCentered(getOptions().preimg, std::get<0>(map_[j][i]), std::get<1>(map_[j][i]));
-            j++;
-    }
     if (getType() == Mode::NORMAL) {
         DrawTime(-200, -400);
     } else if (getType() == Mode::ENDLESS) {
@@ -135,12 +135,11 @@ float EatKanoPanel::calCPS() const { return score / getTime(); }
 
 void EatKanoPanel::UpdatePanel() {
     /** make the updated button clicked and check one by one, if not success blink, if success rerand */
-    //    boost::range::any_of(curr_panel, );
-
-    for (int &i : curr_panel) {
-        auto rand_int = calRand();
-        i = rand_int;
+    for (int i = 0; i < 4; i++) {
+        curr_panel[i + 1] = curr_panel[i];
     }
+    curr_panel[0] = calRand();
+
     for (int i = 0; i < 3; i++) {
         this->check_box_[20 + i]->setDown();
     }

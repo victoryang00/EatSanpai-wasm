@@ -146,11 +146,9 @@ void HiddenButton::step() {
 
 void HiddenButton::setDown() { isDown_ = true; }
 
-SenPai::SenPai(std::function<void()> callback, char key_, int x, int y)
-    : Button("", std::move(callback), getOptions().preimg, getOptions().preimg, getOptions().postimg), key_(key_) {}
+SenPai::SenPai(std::function<void()> callback, int x, int y)
+    : Button("", std::move(callback), getOptions().preimg, getOptions().preimg, getOptions().postimg) {}
 
 void SenPai::step() { Button::step(); }
 
 void SenPai::draw() const { Button::draw(); }
-
-void SenPai::setDown() { isDown_ = true; }

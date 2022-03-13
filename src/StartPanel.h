@@ -24,7 +24,6 @@ public:
 
 private:
     std::shared_ptr<ButtonBox> buttonBox_;
-    EatKanoPanel::Mode mode_;
 };
 
 #endif // RYAN_TEACHING_WINTER_SESSION_STARTPANEL_H

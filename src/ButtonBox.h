@@ -87,14 +87,9 @@ private:
 
 class SenPai : public Button {
 public:
-    explicit SenPai(std::function<void()> callback, char key_, int x, int y);
+    explicit SenPai(std::function<void()> callback, int x, int y);
     void step() override;
     void draw() const override;
     void Blink();
-    void setDown();
-
-private:
-    const char key_;
-    char isDown_ = false;
 };
 #endif // RYAN_TEACHING_WINTER_SESSION_BUTTONBOX_H
