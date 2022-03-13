@@ -19,6 +19,6 @@ bool Explosion::isFinished() const { return countdown_ < 0; }
 
 void Explosion::Draw() const {
     jngl::setSpriteAlpha(countdown_);
-    sprite.draw(jngl::modelview().translate({double(x_), double(y_)}).scale(float(510 - countdown_) / 510));
+    sprite.draw(jngl::modelview().translate({double(x_), double(y_)}));
     jngl::setSpriteAlpha(255);
 }

@@ -144,9 +144,7 @@ void HiddenButton::Blink() {
     }
 }
 
-void HiddenButton::draw() const {
-    Button::draw();
-}
+void HiddenButton::draw() const { Button::draw(); }
 
 void HiddenButton::step() {
     if (isDown_) {
@@ -192,8 +190,9 @@ void HiddenButton::step() {
     if (mouseoverAlpha_ < 0) {
         mouseoverAlpha_ = 0;
     }
-    if (counter_ < 50) {
+    if (counter_ == 50) {
         explosion_.Draw();
+    } else if (counter_ < 50) {
         explosion_.Step();
     }
     if (counter_ == 0)
