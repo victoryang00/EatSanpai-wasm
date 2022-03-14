@@ -2,12 +2,12 @@
 
 template <class T> class Singleton {
 public:
-    Singleton(const Singleton &) = delete;
+    Singleton(const Singleton &) = default;;
     static T *handle() {
         static T instance;
         return &instance;
     }
-    Singleton &operator=(const Singleton &) = delete;
+    Singleton &operator=(const Singleton &) = default;
 
 protected:
     Singleton() = default;
