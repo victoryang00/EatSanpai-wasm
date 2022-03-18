@@ -14,8 +14,8 @@ public:
     int windowHeight = 1280;
     bool fullscreen = false;
     std::string inputKey = "asdf";
-    std::string preimg = "ClickBefore.png";
-    std::string postimg = "AfterClicking.png";
+    std::string preimg = "ClickBefore";
+    std::string postimg = "AfterClicking";
     HighScore endlessHighscore_;
     std::string title_;
     HighScore normalHighscore_;

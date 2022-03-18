@@ -1,6 +1,7 @@
 #include "StartPanel.h"
 #include <jngl/all.hpp>
 #include <jngl/init.hpp>
+#include <filesystem>
 
 class QuitWithEscape : public jngl::Job {
 public:
@@ -19,9 +20,10 @@ std::function<std::shared_ptr<jngl::Work>()> jnglInit(jngl::AppParameters &param
         params.displayName = "撅 仙 贝 罢";
         params.screenSize = {720, 1280};
         return []() {
-            jngl::setFont("/Users/yiweiyang/Library/Fonts/Tiejili Regular.ttf");
+            chdir("image");
+            jngl::setFont("Tiejili.ttf");
             jngl::setAntiAliasing(true);
-            jngl::setIcon("../image/ClickBefore.png");
+            jngl::setIcon("ClickBefore");
             jngl::setFontSize(jngl::getScaleFactor() * 13);
             return std::make_shared<StartPanel>();
         };

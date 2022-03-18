@@ -21,7 +21,7 @@ public:
 private:
     std::string prefix;
     std::string configPath;
-    std::string graphics = "./image/";
+    std::string graphics = "./";
     std::string originalGfx;
 };
 
