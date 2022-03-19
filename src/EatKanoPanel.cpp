@@ -56,7 +56,7 @@ EatKanoPanel::EatKanoPanel(const Mode type) : type_(type), score(0) {
 }
 
 void EatKanoPanel::draw() const {
-    GetScreen().DrawCentered("./image/board.png", 0, 0);
+    GetScreen().DrawCentered("board", 0, 0);
 
     if (getType() == Mode::NORMAL) {
         DrawTime(-200, -410);
