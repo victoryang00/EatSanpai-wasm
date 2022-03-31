@@ -8,7 +8,6 @@
 #include "ButtonBox.h"
 #include "Scores.h"
 #include "engine/Work.h"
-#include "jngl/Finally.hpp"
 #include <functional>
 
 class StartPanel : public Work {

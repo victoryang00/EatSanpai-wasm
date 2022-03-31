@@ -27,7 +27,7 @@ OptionsMenu::OptionsMenu()
 void OptionsMenu::step() { StepWidgets(); }
 
 void OptionsMenu::draw() const {
-    GetScreen().DrawCentered("./image/background.png", 0, 0);
+    GetScreen().DrawCentered("background", 0, 0);
     DrawWidgets();
     jngl::setFontColor(255, 255, 255);
     jngl::setFontSize(40);

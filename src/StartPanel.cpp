@@ -25,7 +25,7 @@ void StartPanel::step() { StepWidgets(); }
 
 void StartPanel::draw() const {
     jngl::setBackgroundColor(0xffffff_rgb);
-    GetScreen().DrawCentered("./image/background.png", 0, 0);
+    GetScreen().DrawCentered("background", 0, 0);
     DrawWidgets();
 
     jngl::pushMatrix();
