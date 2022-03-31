@@ -23,7 +23,8 @@ Paths::Paths() {
     fs::current_path(fs::path(jngl::getBinaryPath()) / fs::path(".."));
     configPath = jngl::getConfigPath();
 #elif defined(__EMSCRIPTEN__)
-    configPath = std::string(getenv("HOME")) + "/.config/" + getOptions().title_ + "/";
+    // TODO add FS support for Browser https://emscripten.org/docs/api_reference/Filesystem-API.html#filesystem-api-idbfs
+    return;
 #else
     const auto findDataDirectory = []() {
         fs::path binaryPath(jngl::getBinaryPath());
